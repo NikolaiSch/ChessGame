@@ -79,9 +79,7 @@ class ChessBoard:
         return False
 
     def white_rook(self, f_p, t_p):
-
         if f_p[1] == t_p[1]:
-            print(t_p[0], f_p[0])
             if t_p[0] - f_p[0] > 0:
                 for i in range(f_p[0] + 1, t_p[0]):
                     if blnk != self.state[i][f_p[1]]:
@@ -97,7 +95,6 @@ class ChessBoard:
                     return True
 
         if f_p[0] == t_p[0]:
-            print(t_p[1], f_p[1])
             if t_p[1] - f_p[1] > 0:
                 for i in range(f_p[1] + 1, t_p[1]):
                     if blnk != self.state[f_p[0]][i]:
@@ -115,7 +112,6 @@ class ChessBoard:
 
     def black_rook(self, f_p, t_p):
         if f_p[1] == t_p[1]:
-            print(t_p[0], f_p[0])
             if t_p[0] - f_p[0] > 0:
                 for i in range(f_p[0] + 1, t_p[0]):
                     if blnk != self.state[i][f_p[1]]:
@@ -131,7 +127,6 @@ class ChessBoard:
                     return True
 
         if f_p[0] == t_p[0]:
-            print(t_p[1], f_p[1])
             if t_p[1] - f_p[1] > 0:
                 for i in range(f_p[1] + 1, t_p[1]):
                     if blnk != self.state[f_p[0]][i]:
@@ -161,11 +156,67 @@ class ChessBoard:
     def black_knight(self, f_p, t_p):
         if abs(f_p[0] - t_p[0]) == 2:
             if abs(f_p[1] - t_p[1]) == 1:
-                if self.state[t_p[0]][t_p[1]][0] != "w":
+                if self.state[t_p[0]][t_p[1]][0] != "b":
                     return True
         elif abs(f_p[1] - t_p[1]) == 2:
             if abs(f_p[0] - t_p[0]) == 1:
+                if self.state[t_p[0]][t_p[1]][0] != "b":
+                    return True
+        return False
+
+    def white_bishop(self, f_p, t_p):
+        if abs(f_p[0] - t_p[0]) == abs(f_p[1] - t_p[1]):
+            if f_p[0] - t_p[0] > 0 and f_p[1] - t_p[1] > 0:
+                for i in range(1, f_p[0] - t_p[0]):
+                    if blnk != self.state[f_p[0] - i][f_p[1] - i]:
+                        return False
                 if self.state[t_p[0]][t_p[1]][0] != "w":
+                    return True
+            if f_p[0] - t_p[0] > 0 and f_p[1] - t_p[1] < 0:
+                for i in range(1, f_p[0] - t_p[0]):
+                    if blnk != self.state[f_p[0] - i][f_p[1] + i]:
+                        return False
+                if self.state[t_p[0]][t_p[1]][0] != "w":
+                    return True
+            if f_p[0] - t_p[0] < 0 and f_p[1] - t_p[1] > 0:
+                for i in range(1, f_p[0] - t_p[0]):
+                    if blnk != self.state[f_p[0] + i][f_p[1] - i]:
+                        return False
+                if self.state[t_p[0]][t_p[1]][0] != "w":
+                    return True
+            if f_p[0] - t_p[0] < 0 and f_p[1] - t_p[1] < 0:
+                for i in range(1, f_p[0] - t_p[0]):
+                    if blnk != self.state[f_p[0] + i][f_p[1] + i]:
+                        return False
+                if self.state[t_p[0]][t_p[1]][0] != "w":
+                    return True
+        return False
+
+    def black_bishop(self, f_p, t_p):
+        if abs(f_p[0] - t_p[0]) == abs(f_p[1] - t_p[1]):
+            if f_p[0] - t_p[0] > 0 and f_p[1] - t_p[1] > 0:
+                for i in range(1, f_p[0] - t_p[0]):
+                    if blnk != self.state[f_p[0] - i][f_p[1] - i]:
+                        return False
+                if self.state[t_p[0]][t_p[1]][0] != "b":
+                    return True
+            if f_p[0] - t_p[0] > 0 and f_p[1] - t_p[1] < 0:
+                for i in range(1, f_p[0] - t_p[0]):
+                    if blnk != self.state[f_p[0] - i][f_p[1] + i]:
+                        return False
+                if self.state[t_p[0]][t_p[1]][0] != "b":
+                    return True
+            if f_p[0] - t_p[0] < 0 and f_p[1] - t_p[1] > 0:
+                for i in range(1, f_p[0] - t_p[0]):
+                    if blnk != self.state[f_p[0] + i][f_p[1] - i]:
+                        return False
+                if self.state[t_p[0]][t_p[1]][0] != "b":
+                    return True
+            if f_p[0] - t_p[0] < 0 and f_p[1] - t_p[1] < 0:
+                for i in range(1, f_p[0] - t_p[0]):
+                    if blnk != self.state[f_p[0] + i][f_p[1] + i]:
+                        return False
+                if self.state[t_p[0]][t_p[1]][0] != "b":
                     return True
         return False
 
@@ -184,7 +235,15 @@ class ChessBoard:
             case "wk":
                 return self.white_knight(f_p, t_p)
             case "bk":
-                return self.white_knight(f_p, t_p)
+                return self.black_knight(f_p, t_p)
+            case "wb":
+                return self.white_bishop(f_p, t_p)
+            case "bb":
+                return self.black_bishop(f_p, t_p)
+            case "wq":
+                return self.white_bishop(f_p, t_p) or self.white_rook(f_p, t_p)
+            case "bq":
+                return self.black_bishop(f_p, t_p) or self.black_rook(f_p, t_p)
 
 
 cb = ChessBoard()
@@ -214,7 +273,7 @@ style.configure("Color.TButton", background="gray")
 style.configure("NoColor.TButton", background="white")
 
 frm = ttk.Frame(root)
-frame = ttk.Frame(stats)
+frame = ttk.Frame(stats, padding=10)
 frm.grid()
 frame.grid()
 
@@ -231,7 +290,6 @@ def points(color):
     for i in cb.state:
         for j in i:
             if j[0] == color and len(j) == 2:
-                print(j)
                 points += points_dict[j[1]]
     return points
 
@@ -278,7 +336,6 @@ def render_components():
                 s = "NoColor.TButton"
                 sW = "BW.TButton"
             if selection == [x, y]:
-                print(cb.state[x][y])
                 match cb.state[x][y]:
                     case "wp":
                         ttk.Button(
